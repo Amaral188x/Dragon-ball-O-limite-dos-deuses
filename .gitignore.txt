@@ -1,5 +1,4 @@
-bin/
-lib/
-jogo.jar
-verificar.bat
+.agentes/
 .vscode/
+lib/
+bin/

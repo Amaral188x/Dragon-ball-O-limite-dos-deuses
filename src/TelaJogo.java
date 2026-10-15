@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -26,10 +27,10 @@ public class TelaJogo extends JPanel implements ActionListener, KeyListener {
     private Image fundoNormal = fundo;
     private Image fundoEspecial = load("/fundo/fundo2.png");
     private Som somFundo;
-    private boolean esquerda;
-    private boolean direita;
-    private boolean cima;
-    private boolean baixo;
+    public boolean esquerda;
+    public boolean direita;
+    public boolean cima;
+    public boolean baixo;
     private boolean elevarKiGoku;
     private boolean espacoPressionado;
     private boolean pararMusica = true;
@@ -49,6 +50,7 @@ public class TelaJogo extends JPanel implements ActionListener, KeyListener {
     private boolean vitoriaSom1 = true;
     private boolean vitoriaSom2 = false;
     private int gokuposY;
+    private boolean reiniciarJogo = false;
 
     public TelaJogo() {
         setFocusable(true);
@@ -89,6 +91,9 @@ public class TelaJogo extends JPanel implements ActionListener, KeyListener {
                     }
                     if(indiceFimJogo >= fimJogo.size() - 1){
                         timerFimJogo.stop();
+                        // Quando a animacao de fim de jogo acaba, o jogo
+                        // reinicia como se fosse a primeira vez.
+                        reiniciarJogo = true;
                     }else{
                         indiceFimJogo ++;
                     }
@@ -108,7 +113,7 @@ public class TelaJogo extends JPanel implements ActionListener, KeyListener {
 
         // Desenha o Goku (se não estiver no especial do Ultra Instinto)
         if (!goku.AtivarEspecialUltraInstinto) {
-            goku.desenharGoku(g);
+            goku.desenharGoku(g, this);
         }
 
         vegeta.desenharVegeta(g);
@@ -287,6 +292,30 @@ public class TelaJogo extends JPanel implements ActionListener, KeyListener {
 
         }
 
+        if(reiniciarJogo){
+            reiniciarJogo = false;
+
+            // Para todos os sons e timers do jogo antes de voltar.
+            somFundo.parar();
+            grito.parar();
+            timer.stop();
+            vegeta.timer.stop();
+            goku.timerEspecial.stop();
+            goku.timerEnergia.stop();
+            goku.timerEspecialInstintoIncompleto.stop();
+
+            // Volta para a intro (a tela de "play com Enter"),
+            // como se o jogo tivesse acabado de ser aberto.
+            JFrame janelaFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            TelaIntro intro = new TelaIntro(janelaFrame);
+
+            janelaFrame.setContentPane(intro);
+            janelaFrame.revalidate();
+            janelaFrame.repaint();
+            SwingUtilities.invokeLater(() -> {
+                intro.requestFocusInWindow();
+            });
+        }
         if(pararMusica){
             somFundo.parar();
             grito.parar();

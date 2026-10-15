@@ -43,6 +43,7 @@ public class Vegeta {
     private ArrayList<Image> transformacao;
     private ArrayList<Image> elevarKiSprites;
     private ArrayList<Image> especial;
+    private int velocidade = 15;
 
     // Sprites da forma base.
     private ArrayList<Image> baseSequencia1, baseSequencia2, baseSequencia3, baseSequencia4, baseSequencia5, baseSequencia6, baseSequencia7, baseSequencia8;
@@ -697,7 +698,7 @@ public class Vegeta {
         dimensoesVegetaX = 200;
         dimensoesVegetaY = 200;
         especialDano += 10;
-
+        velocidade += 2;
         transformacao = ssjTransformacao;
         indiceTransformacao = 0;
         transformando = true;
@@ -708,6 +709,7 @@ public class Vegeta {
         vegetaVida = 300;
         forca += 1;
         especialDano += 20;
+        velocidade += 2;
 
         transformacao = deusTransformacao;
         indiceTransformacao = 0;
@@ -721,7 +723,7 @@ public class Vegeta {
         especialDano += 10;
         dimensoesVegetaX = 200;
         dimensoesVegetaY = 200;
-
+        velocidade += 2;
         transformacao = blueTransformacao;
         indiceTransformacao = 0;
         transformando = true;
@@ -734,6 +736,7 @@ public class Vegeta {
         especialDano += 10;
         dimensoesVegetaX = 200;
         dimensoesVegetaY = 200;
+        velocidade += 2;
 
         transformacao = egoTransformacao;
         indiceTransformacao = 0;
@@ -928,7 +931,7 @@ public class Vegeta {
             if(posX >= 1800){
                 return;
             }
-            posX += 15;
+            posX += velocidade;
             spriteAtual = tras;
             return;
         }
@@ -981,20 +984,20 @@ public class Vegeta {
             !goku.TransformandoUltraInstinto && !goku.TransformandoInstintoIncompleto){
 
             if (posX < goku.posX + 90) {
-                posX += 15;
+                posX += velocidade;
                 spriteAtual = tras;
             } else if (posX > goku.posX + 100) {
 
-                posX -= 15;
+                posX -= velocidade;
                 spriteAtual = frente;
             }
 
 
             if (posY < goku.posY - 5) {
-                posY += 15;
+                posY += velocidade;
                 spriteAtual = cima;
             } else if (posY > goku.posY + 50) {
-                posY -= 15;
+                posY -= velocidade;
                 spriteAtual = cima;
             }
 
@@ -1004,13 +1007,13 @@ public class Vegeta {
                 posX = 0;
             }
             if (posX > 1700) {
-                posX = 1500;
+                posX = 1700;
             }
             if (posY < 0) {
                 posY = 0;
             }
-            if (posY > 830) {
-                posY = 830;
+            if (posY >= 930) {
+                posY = 930;
             }
         }
     }

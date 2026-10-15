@@ -229,7 +229,7 @@ public class Goku {
     public boolean UltraInstintoAtivo = false;
 
     // Controle velocidade
-    private final int velocidade = 5;
+    private int velocidade = 5;
 
     // Sprite atual
     private Image spriteAtual;
@@ -757,9 +757,8 @@ public class Goku {
                 g.drawImage(anelEspecial.get(indiceAnelEspecial), posX + 400, posY, null);
             }
 
-            // O anel e a poeira sao animados aqui, no ritmo do desenho (como o
-            // golpe): o timerEspecial avanca de 250 em 250ms, mas a energia
-            // sai da tela em ~130ms, entao la o anel nunca chegaria a animar.
+            // O anel e a poeira sao animados aqui
+          
             contadorAnelEspecial++;
             if (contadorAnelEspecial >= 5) {
                 contadorAnelEspecial = 0;
@@ -847,7 +846,7 @@ public class Goku {
         g.drawImage(barraKi,200,60,especialKi,50,null);
     }
 
-    public void desenharGoku(Graphics g) {
+    public void desenharGoku(Graphics g,TelaJogo jogo) {
         if (AtivarEspecialUltraInstinto) {
             return;
         }
@@ -913,7 +912,11 @@ public class Goku {
         }
 
         if (mostrarGolpe && !golpes.isEmpty()) {
-            g.drawImage(golpes.get(indiceGolpe), posX, posY + 90, 200, 100, null);
+            if(jogo.baixo || jogo.cima || jogo.esquerda || jogo.direita){
+                g.drawImage(golpes.get(indiceGolpe), posX - 100, posY - 170, 700, 600, null);
+            }else{
+                g.drawImage(golpes.get(indiceGolpe), posX, posY + 90, 200, 100, null);
+            }
             contadorGolpe++;
 
             if (contadorGolpe >= 5) {
@@ -1093,26 +1096,31 @@ public class Goku {
 
             Transformando = true;
             IndiceTransformacao = 0;
+            velocidade += 2;
 
         } else if (NivelKiDeus >= NivelKiMaximoDeus && SsjAtivo && !DeusAtivo && !BlueAtivo && !InstintoIncompletoAtivo && !UltraInstintoAtivo && !TransformandoDeus) {
 
             TransformandoDeus = true;
             IndiceSeq = 0;
             IndiceTransformacaoDeus = 0;
+            velocidade += 2;
 
         } else if (NivelKiBlue >= NivelKiMaximoBlue && DeusAtivo && !BlueAtivo && !InstintoIncompletoAtivo && !UltraInstintoAtivo && !TransformandoBlue) {
 
             TransformandoBlue = true;
             IndiceTransformacaoBlue = 0;
+            velocidade += 2;
 
         } else if (NivelKiInstintoIncompleto >= NivelKiMaximoInstintoIncompleto && BlueAtivo && !InstintoIncompletoAtivo && !UltraInstintoAtivo && !TransformandoInstintoIncompleto) {
 
             TransformandoInstintoIncompleto = true;
             IndiceTransformacaoInstintoIncompleto = 0;
+            velocidade += 2;
         } else if (NivelKiUltraInstinto >= NivelKiMaximoUltraInstinto && InstintoIncompletoAtivo && !UltraInstintoAtivo && !TransformandoUltraInstinto) {
 
             TransformandoUltraInstinto = true;
             IndiceTransformacaoUltraInstinto = 0;
+            velocidade += 2;
         }
     }
 
